@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  gpt-api:
+    image: luchenyu/gpt-api
+    runtime: nvidia
+    ulimits:
+      stack: 67108864
+      memlock: -1
+    ports:
+      - "1042:8000"
+    command: ["--model", "casperhansen/llama-3.3-70b-instruct-awq", "--max-model-len", "8192", "--served-model-name", "Llama3.3-70B"]
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ "0" ]
+              capabilities: [ gpu ]
